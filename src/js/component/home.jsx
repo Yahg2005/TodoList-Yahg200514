@@ -1,24 +1,49 @@
-import React from "react";
-
-//include images into your bundle
-import rigoImage from "../../img/rigo-baby.jpg";
+import React, { useState } from "react";
+import "../../styles/index.css";
 
 //create your first component
 const Home = () => {
+	const [inputValue, setInputValue] = useState('');
+	const [todos, setTodos] = useState([]);
+
+	const handleKeyDown = (e) => {
+		if (e.key === "Enter" && inputValue.trim()) {
+			setTodos([...todos, inputValue.trim()]);
+			setInputValue('');
+		}
+	};
+
+	const handleDelete = (index) => {
+		const newTodos = todos.filter((_, todoIndex) => todoIndex !== index);
+		setTodos(newTodos);
+	};
+
 	return (
-		<div className="text-center">
-			<h1 className="text-center mt-5">Hello Rigo!</h1>
-			<p>
-				<img src={rigoImage} />
-			</p>
-			<a href="#" className="btn btn-success">
-				If you see this green button... bootstrap is working...
-			</a>
-			<p>
-				Made by{" "}
-				<a href="http://www.4geeksacademy.com">4Geeks Academy</a>, with
-				love!
-			</p>
+		<div className="container">
+			<h1>todos</h1>
+			<ul>
+				<li>
+					<input 
+						type="text" 
+						onChange={(e) => setInputValue(e.target.value)}
+						value={inputValue}
+						onKeyDown={handleKeyDown}
+						placeholder="What do you need to do?" />
+				</li>
+				{todos.length === 0 ? (
+					<li>No hay tareas, añadir tareas</li>
+				) : (
+					todos.map((item, index) => (
+						<li key={index} className="todo-item">
+							{item}
+							<span
+								className="fas fa-trash-alt"
+								onClick={() => handleDelete(index)}></span>
+						</li>
+					))
+				)}
+			</ul>
+			<div>{todos.length} tasks left</div>
 		</div>
 	);
 };
