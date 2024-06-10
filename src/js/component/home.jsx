@@ -7,8 +7,8 @@ const Home = () => {
 	const [todos, setTodos] = useState([]);
 
 	const handleKeyDown = (e) => {
-		if (e.key === "Enter" && inputValue.trim()) {
-			setTodos([...todos, inputValue.trim()]);
+		if (e.key === "Enter" && inputValue) {
+			setTodos([...todos, inputValue]);
 			setInputValue('');
 		}
 	};
